@@ -2,7 +2,7 @@
 
 use Illuminate\Routing\Controller;
 
-class DTPizzasController extends Controller {
+class DTPizzasController extends BaseAPIController {
 
 	/**
 	 * Display a listing of the resource.
