@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers;
 
+use App\models\DTIngredients;
+use App\models\DTPizzas;
 use Illuminate\Routing\Controller;
+
 
 class DTPizzasController extends BaseAPIController {
 
@@ -10,10 +13,12 @@ class DTPizzasController extends BaseAPIController {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		//
-	}
+    public function index()
+    {
+
+    }
+
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -44,10 +49,17 @@ class DTPizzasController extends BaseAPIController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function view($id)
 	{
-		//
+        $config['routeId'] = Route('front-end.pizzas.show', $id );
+        return view('admin.list', $config);
+
 	}
+
+
+
+
+
 
 	/**
 	 * Show the form for editing the specified resource.

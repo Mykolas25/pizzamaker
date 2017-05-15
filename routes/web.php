@@ -50,8 +50,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/edit', ['as' => 'app.ingredients.edit', 'uses' => 'DTIngredientsController@edit']);
             Route::post('/edit', ['uses' => 'DTIngredientsController@update']);
 
-            Route::get('/', ['uses' => 'DTIngredientsController@show']);
-            Route::delete('/', ['as' => 'app.ingredients.delete', 'uses' => 'DTIngredientsController@destroy']);
+            Route::get('/', ['as' => 'app.ingredients.show', 'uses' => 'DTIngredientsController@adminShow']);
+            Route::delete('/', ['as' => 'app.ingredients.show', 'uses' => 'DTIngredientsController@destroy']);
 
         });
     });
@@ -166,3 +166,12 @@ Route::group(['prefix' => 'pizzas'], function () {
 
     });
 });
+
+Route::group(['prefix' => 'register'], function () {
+    Route::get('/', ['as' => 'app.register.show','uses' => 'Auth\RegisterController@showRegistrationForm']);
+//    Route::post('/create', [ 'uses' => '@create']);
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

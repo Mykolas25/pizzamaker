@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use App\models\DTIngredients;
 
 class DTIngredientsController extends Controller {
 
@@ -10,10 +11,35 @@ class DTIngredientsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		//
-	}
+    public function index()
+    {
+        if(isset($_GET['id']))
+            $config['idForCreateMsg'] = $_GET['id'];
+        $config['list'] = $this->apiIndex()->toArray();
+        $config['routeId'] = 'app.ingredients.show';
+        $config['edit'] = 'app.ingredients.edit';
+
+        return view ('admin.list', $config);
+    }
+
+    public function indexAdmin()
+    {
+        $config = DTIngredients::get();
+
+        return view ('adminShow', $config);
+    }
+
+
+    public function apiIndex()
+    {
+        return DTIngredients::get();
+    }
+
+    public function adminShow($id)
+    {
+        $record["single"] = DTIngredients::find($id)->toArray();
+       return view("admin.single", $record);
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -23,7 +49,7 @@ class DTIngredientsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+
 	}
 
 	/**
@@ -34,7 +60,15 @@ class DTIngredientsController extends Controller {
 	 */
 	public function store()
 	{
-		//
+        $data = request()->all();
+        DTIngredients::create([
+            'name' => $data['name'],
+            'calories' => $data['calories']
+        ]);
+        
+        return redirect()->action(
+            'DTIngredientsController@index', ['id' => $data['name']]
+        );
 	}
 
 	/**
@@ -58,7 +92,9 @@ class DTIngredientsController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+        $config['single'] = DTIngredients::find($id)->toArray();
+        $config['edit'] = 'app.ingredients.edit';
+        return view("admin.edit", $config);
 	}
 
 	/**
@@ -70,7 +106,20 @@ class DTIngredientsController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+
+        $data = request()->all();
+//        dd($data);
+        $record = DTIngredients::find($id);
+        $record->update([
+            'count' => $data['count'],
+            'id' => $data['id'],
+            'name' => $data['ingredient'],
+            'calories' => $data['calories']
+        ]);
+
+        return redirect()->action(
+            'DTIngredientsController@edit', ['id' => $record['id']]
+        );
 	}
 
 	/**
@@ -82,7 +131,8 @@ class DTIngredientsController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+        $record["delete"] = DTIngredients::destroy($id);
+        return json_decode(["success" => true, "id" => $id]);
 	}
 
 }

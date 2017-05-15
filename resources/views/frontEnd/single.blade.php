@@ -1,0 +1,2 @@
+@extends('frontEnd.blade.app')
+
