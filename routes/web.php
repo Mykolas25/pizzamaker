@@ -172,6 +172,12 @@ Route::group(['prefix' => 'register'], function () {
 //    Route::post('/create', [ 'uses' => '@create']);
 });
 
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/userPage',['middleware' => ['auth', 'member'], 'uses' => 'DTUsersController@index']);
+
+//Route::get('/home', ['middleware' => ['auth', 'age'], 'uses' => 'MainDisplayController@show']);
