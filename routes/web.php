@@ -149,26 +149,34 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 
-Route::group(['prefix' => 'pizzas'], function () {
+Route::group(['prefix' => 'pizzas', 'middleware' => ['auth', 'member']], function () {
 
-    Route::get('/', ['middleware' => ['auth', 'check-role-member'], 'as' => 'front-end.pizzas.index', 'uses' => 'DTPizzasController@index']);
+    Route::get('/', ['as' => 'front-end.pizzas.index','uses' => 'DTPizzasController@index']);
+    Route::get('/userPage', ['as' => 'app.users.index', 'uses' => 'DTUsersController@index']);
 
-    Route::get('/create', ['middleware' => ['auth', 'check-role-member'], 'as' => 'front-end.pizzas.create', 'uses' => 'DTPizzasController@create']);
-    Route::post('/create', ['as' => 'front-end.pizzas.store', 'uses' => 'DTPizzasController@store']);
+    Route::get('/create', ['as' => 'front-end.pizzas.create','uses' => 'DTPizzasController@create']);
+    Route::post('/create', [ 'uses' => 'DTPizzasController@store']);
 
     Route::group(['prefix' => '{id}'], function () {
 
-        Route::get('/edit', ['middleware' => ['auth', 'check-role-member'], 'as' => 'front-end.pizzas.edit', 'uses' => 'DTPizzasController@edit']);
-        Route::post('/edit', ['as' => 'front-end.pizzas.update', 'uses' => 'DTPizzasController@update']);
+        Route::get('/edit', ['as' => 'front-end.pizzas.edit', 'uses' => 'DTPizzasController@edit']);
+        Route::post('/edit', ['uses' => 'DTPizzasController@update']);
 
-        Route::get('/', ['middleware' => ['auth', 'check-role-member'], 'as' => 'front-end.pizzas.show', 'uses' => 'DTPizzasController@show']);
+        Route::get('/', ['uses' => 'DTPizzasController@show']);
         Route::delete('/', ['as' => 'front-end.pizzas.delete', 'uses' => 'DTPizzasController@destroy']);
 
     });
-});
+});;
+
 
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
+
+//Route::group(['prefix' => 'register'], function () {
+//    Route::get('/', ['as' => 'app.register.show','uses' => 'Auth\RegisterController@showRegistrationForm']);
+//    Route::post('/create', [ 'uses' => '@create']);
+//});
+
+Route::get('/home', 'HomeController@index')->name('home');

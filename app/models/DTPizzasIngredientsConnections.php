@@ -26,7 +26,7 @@ class DTPizzasIngredientsConnections extends Model
      */
     protected $updated_at = false;
 
-    public function ingredient (  )
+    public function ingredient()
     {
         return $this->hasOne(DTIngredients::class, 'id', 'ingredients_id');
     }

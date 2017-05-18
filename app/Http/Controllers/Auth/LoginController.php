@@ -25,7 +25,11 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+//    function __construct()
+//    {
+//        return $this->redirectTo = route('app.users.index');
+//    }
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.

@@ -32,10 +32,11 @@ class DTUsers extends Authenticatable
     /**
      * Automatically generates and adds UUID to model
      */
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
-        static::creating(function($model) {
-            if(!isset($model->attributes['id'])) {
+        static::creating(function ($model) {
+            if (!isset($model->attributes['id'])) {
                 $model->attributes['id'] = Uuid::uuid4();
             } else {
                 $model->{$model->getKeyName()} = $model->attributes['id'];
@@ -43,7 +44,8 @@ class DTUsers extends Authenticatable
         });
     }
 
-    public function getFillable() {
+    public function getFillable()
+    {
 
         unset($this->fillable[0]);
         return $this->fillable;
@@ -56,14 +58,18 @@ class DTUsers extends Authenticatable
         return $tableName;
     }
 
-    public function connection (  )
+    public function rolesSyncing()
     {
         return $this->belongsToMany(DTRoles::class, 'dt_users_roles_connections', 'users_id', 'roles_id');
     }
 
-    public function rolesConnections (  )
+    public function memberRolesSyncing()
     {
-        return $this->hasMany(DTUsersRolesConnections::class, 'users_id', 'id')
-            ->with(['role']);
+        return $this->belongsToMany(DTRoles::class, 'dt_users_roles_connections', 'users_id', 'roles_id');
+    }
+
+    public function RolesConnections()
+    {
+        return $this->hasMany(DTUsersRolesConnections::class, 'users_id', 'id')->with('roles');
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Ramsey\Uuid\Uuid;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -23,7 +24,6 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
 
     /**
      * Where to redirect users after registration.
@@ -52,8 +52,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'phone' => 'required|integer|digits:8',
+
         ]);
     }
 
@@ -65,16 +68,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $record = DTUsers::create([
+         $record = DTUsers::create([
             'id' => Uuid::uuid4(),
-            'phone' => $data['phone'],
             'name' => $data['name'],
+            'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'phone' => $data['phone'],
         ]);
 
-        $record -> connection()-> sync(['member', 'user']);
-
+        $record -> RolesConnections() -> sync('member');
         return $record;
     }
 }

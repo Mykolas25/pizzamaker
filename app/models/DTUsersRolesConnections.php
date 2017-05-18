@@ -26,7 +26,7 @@ class DTUsersRolesConnections extends Model
      */
     protected $updated_at = false;
 
-    public function role (  )
+    public function roles()
     {
         return $this->hasOne(DTRoles::class, 'id', 'roles_id');
     }
