@@ -42,7 +42,5 @@ class PadsSeeder extends Seeder
         DB::commit();
 
 
-
-
     }
 }

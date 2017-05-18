@@ -21,7 +21,8 @@ class CreateDtUsersTable extends Migration {
 			$table->string('name');
 			$table->string('password');
 			$table->string('phone');
-			$table->string('email');
+            $table->string('email')->unique();
+            $table->rememberToken();
 		});
 	}
 
