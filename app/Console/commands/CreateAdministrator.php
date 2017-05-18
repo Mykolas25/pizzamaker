@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: karolis
+ * User: Mykolas
  * Date: 5/17/2017
- * Time: 9:49 AM
+ * Time: 9:47 AM
  */
 
-namespace App\Console\Commands;
+namespace App\Console\commands;
 
 use App\models\DTUsers;
 use Illuminate\Console\Command;
@@ -14,28 +14,30 @@ use Ramsey\Uuid\Uuid;
 
 class CreateAdministrator extends Command
 {
-    protected $signature = "make:admin";
 
-    protected $description = "Create admin user account";
+    protected $signature = "MyAdmin";
+
+    protected  $description = "Create user with admin role";
 
     public function handle()
     {
-        if(DTUsers::get()->toArray() == [])
-        {
-            $this->comment("Creating admin user");
 
-            $record = DTUsers::create([
-                'id' => Uuid::uuid4(),
-                'name' => $name = $this->ask('Please provide name'),
-                'email' => $email = $this->ask('Please provide email'),
-                'phone' => $phone = $this->ask('Please provide phone'),
-                'password' => bcrypt($password = $this->secret('Please provide password')),
-            ]);
+        $this->comment("Creating admin user");
 
-            $record -> connection()-> sync('super-admin');
+        $record = DTUsers::create([
+            'id' => Uuid::uuid4(),
+            'name' => $name = $this->ask("Please provide name"),
+            'email' => $email = $this->ask("Please provide email"),
+            'phone' => $phone = $this->ask("Please provide phone"),
+            'password' => bcrypt($password = $this->secret("Please provide password"))
+        ]);
 
-            $this->comment("Great success!");
+        $record -> rolesSyncing() -> sync('super-admin');
 
-        }
+        $this->info($email);
+        $this->info($name);
+        $this->info($phone);
+
     }
+
 }

@@ -24,12 +24,11 @@ class CheckMember
      */
     public function handle($request, Closure $next)
     {
-//        $config = [];
-//        $config['memberCheck'] = DTUsersRolesConnections::pluck('users_id')->toArray();
 
-       dd($config, auth()->user()->id);
-        auth 
-        if (in_array((auth()->user()->id), $config)) {
+//       $config['memberCheck'] = DTUsersRolesConnections::where("users_id", "=",auth()->user()->id )->pluck('users_id')->toArray();
+//        dd(auth()->user());
+
+        if (in_array('member', auth()->user()->RolesConnections->pluck('roles_id')->toArray())) {
             return $next($request);
         } else {
             abort(403);
