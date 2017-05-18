@@ -50,3 +50,4 @@ class CoreModel extends Model
         return $tableName;
     }
 }
+
