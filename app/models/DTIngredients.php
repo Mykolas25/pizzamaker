@@ -17,5 +17,7 @@ class DTIngredients extends CoreModel
     /**
      * @var tables fillables
      */
-    protected $fillable = ['id','count', 'name', 'calories'];
+    protected $fillable = ['id', 'name', 'calories'];
+
+
 }

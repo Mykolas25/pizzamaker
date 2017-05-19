@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use App\models\DTIngredients;
+use Illuminate\Routing\Controller;
 
 class DTIngredientsController extends Controller {
+
+
 
 	/**
 	 * Display a listing of the resource.
@@ -11,35 +13,27 @@ class DTIngredientsController extends Controller {
 	 *
 	 * @return Response
 	 */
+
     public function index()
     {
-        if(isset($_GET['id']))
-            $config['idForCreateMsg'] = $_GET['id'];
-        $config['list'] = $this->apiIndex()->toArray();
-        $config['routeId'] = 'app.ingredients.show';
-        $config['edit'] = 'app.ingredients.edit';
 
-        return view ('admin.list', $config);
-    }
+	}
 
-    public function indexAdmin()
-    {
-        $config = DTIngredients::get();
+	public function adminIndex()
+	{
+        $dataFromModel = new DTIngredients();
 
-        return view ('adminShow', $config);
-    }
+	    $configuration['list'] = DTIngredients::get()->toArray();
+        $configuration['tableName'] = $dataFromModel->getTableName();
 
+        if($configuration['list'] == [])
+        {
+            $configuration['error'] = ['message' => trans("Create some " . $configuration['tableName'] . ", then go to list")];
+            return view('admin.list', $configuration);
+        }
 
-    public function apiIndex()
-    {
-        return DTIngredients::get();
-    }
-
-    public function adminShow($id)
-    {
-        $record["single"] = DTIngredients::find($id)->toArray();
-       return view("admin.single", $record);
-    }
+		return view('admin.list', $configuration);
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -52,6 +46,19 @@ class DTIngredientsController extends Controller {
 
 	}
 
+    public function adminCreate()
+    {
+
+        $dataFromModel = new DTIngredients();
+
+
+        $configuration['fields'] = $dataFromModel->getFillable();
+        $configuration['tableName'] = $dataFromModel->getTableName();
+        $configuration['list'] = DTIngredients::get()->toArray();
+
+        return view('admin.createform', $configuration);
+	}
+
 	/**
 	 * Store a newly created resource in storage.
 	 * POST /ingredients
@@ -60,15 +67,28 @@ class DTIngredientsController extends Controller {
 	 */
 	public function store()
 	{
+
+	}
+
+    public function adminStore()
+    {
         $data = request()->all();
-        DTIngredients::create([
-            'name' => $data['name'],
-            'calories' => $data['calories']
-        ]);
-        
-        return redirect()->action(
-            'DTIngredientsController@index', ['id' => $data['name']]
-        );
+        $dataFromModel = new DTIngredients();
+
+        $configuration['fields'] = $dataFromModel->getFillable();
+        $configuration['tableName'] = $dataFromModel->getTableName();
+
+        foreach($configuration['fields'] as $key=> $value) {
+            if (!isset($data[$value])) {
+                $configuration['error'] = ['message' => trans('Please enter ' . $value)];
+                return view('admin.createform', $configuration);
+            }
+        }
+
+        DTIngredients::create($data);
+        $configuration['comment'] = ['message' => trans('Record added successfully')];
+        return view('admin.createform',  $configuration);
+
 	}
 
 	/**
@@ -83,6 +103,17 @@ class DTIngredientsController extends Controller {
 		//
 	}
 
+    public function adminShow($id)
+    {
+        $dataFromModel = new DTIngredients();
+
+        $configuration['record'] = DTIngredients::find($id)->toArray();
+        $configuration['tableName'] = $dataFromModel->getTableName();
+
+
+        return view('admin.single', $configuration);
+	}
+
 	/**
 	 * Show the form for editing the specified resource.
 	 * GET /ingredients/{id}/edit
@@ -92,9 +123,14 @@ class DTIngredientsController extends Controller {
 	 */
 	public function edit($id)
 	{
-        $config['single'] = DTIngredients::find($id)->toArray();
-        $config['edit'] = 'app.ingredients.edit';
-        return view("admin.edit", $config);
+		
+	}
+
+	public function adminEdit($id) 
+	{
+
+		return view('admin.editform');
+
 	}
 
 	/**
@@ -106,20 +142,12 @@ class DTIngredientsController extends Controller {
 	 */
 	public function update($id)
 	{
+		
+	}
 
-        $data = request()->all();
-//        dd($data);
-        $record = DTIngredients::find($id);
-        $record->update([
-            'count' => $data['count'],
-            'id' => $data['id'],
-            'name' => $data['ingredient'],
-            'calories' => $data['calories']
-        ]);
+	public function adminUpdate($id) 
+	{
 
-        return redirect()->action(
-            'DTIngredientsController@edit', ['id' => $record['id']]
-        );
 	}
 
 	/**
@@ -131,8 +159,17 @@ class DTIngredientsController extends Controller {
 	 */
 	public function destroy($id)
 	{
-        $record["delete"] = DTIngredients::destroy($id);
-        return json_decode(["success" => true, "id" => $id]);
+		//
+	}
+
+    public function adminDestroy($id)
+    {
+
+        if(DTIngredients::destroy($id)) {
+            return '{"success":true}';
+        }
+
+
 	}
 
 }

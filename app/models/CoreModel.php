@@ -36,5 +36,18 @@ class CoreModel extends Model
         });
 
     }
+
+    public function getFillable() {
+
+        unset($this->fillable[0]);
+        return $this->fillable;
+
+    }
+
+    public function getTableName()
+    {
+        $tableName = substr($this->table, 3);
+        return $tableName;
+    }
 }
 

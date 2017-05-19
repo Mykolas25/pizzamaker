@@ -25,4 +25,5 @@ class DTRolesPermissionsConnections extends Model
      * @var bool
      */
     protected $updated_at = false;
+
 }

@@ -2,21 +2,19 @@
 
 namespace App\Console;
 
-use App\Console\commands\CreateAdministrator;
-use App\Console\commands\PrintIngredient;
+use App\Console\Commands\CreateAdministrator;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
+     * The Artisan Commands provided by your application.
      *
      * @var array
      */
     protected $commands = [
         CreateAdministrator::class,
-        PrintIngredient::class
     ];
 
     /**
@@ -27,11 +25,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('MyIngredient')->everyMinute();
+        // $schedule->command('inspire')
+        //          ->hourly();
     }
 
     /**
-     * Register the Closure based commands for the application.
+     * Register the Closure based Commands for the application.
      *
      * @return void
      */
