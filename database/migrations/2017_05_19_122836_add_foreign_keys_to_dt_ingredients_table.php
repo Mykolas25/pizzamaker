@@ -14,7 +14,7 @@ class AddForeignKeysToDtIngredientsTable extends Migration {
 	{
 		Schema::table('dt_ingredients', function(Blueprint $table)
 		{
-            $table->foreign('resources_id', 'fk_dt_resources_dt_ingredients1')->references('id')->on('dt_resources')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign('resources_id', 'fk_dt_ingredients_dt_resources1')->references('id')->on('dt_resources')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
 	}
 
@@ -27,7 +27,7 @@ class AddForeignKeysToDtIngredientsTable extends Migration {
 	{
 		Schema::table('dt_ingredients', function(Blueprint $table)
 		{
-			$table->dropForeign('fk_dt_resources_dt_ingredients1');
+			$table->dropForeign('fk_dt_ingredients_dt_resources1');
 		});
 	}
 
