@@ -1,4 +1,4 @@
-@extends('admin.main')
+@extends('front-end.main')
 
 @section('content')
 
@@ -28,16 +28,16 @@
                             <td>{{$value}}</td>
 
                         @endforeach
-                        <td><a class="btn btn-primary btn-sm" href="{{route('app.' . $tableName . '.show', $record['id'])}}">View</a></td>
-                        <td><a class="btn btn-success btn-sm" href="{{route('app.' . $tableName . '.edit', $record['id'])}}">Edit</a></td>
-                        <td><a id="del" onclick="deleteItem('{{route('app.' . $tableName . '.delete', $record['id'])}}')" class="btn btn-danger btn-sm" >Delete</a></td>
+                        <td><a class="btn btn-primary btn-sm" href="{{route('front-end.' . $tableName . '.show', $record['id'])}}">View</a></td>
+                        <td><a class="btn btn-success btn-sm" href="{{route('front-end.' . $tableName . '.edit', $record['id'])}}">Edit</a></td>
+                        <td><a id="del" onclick="deleteItem('{{route('front-end.' . $tableName . '.delete', $record['id'])}}')" class="btn btn-danger btn-sm" >Delete</a></td>
                     </tr>
                 @endforeach
 
                 </tbody>
             </table>
         @endif
-        <a style="margin-bottom: 50px" class="btn btn-primary btn-sm" href="{{ route('app.' . $tableName . '.create') }}">Create new {{substr($tableName, 0, -1)}}</a>
+        <a style="margin-bottom: 50px" class="btn btn-primary btn-sm" href="{{ route('front-end.' . $tableName . '.create') }}">Create new {{substr($tableName, 0, -1)}}</a>
     </div>
 
 
@@ -56,6 +56,9 @@
 
         function deleteItem(route) {
 
+
+
+
             $.ajax({
 
                 url: route,
@@ -63,8 +66,7 @@
                 data: {},
                 dataType: 'json',
                 success: function () {
-                    el.remove();
-//                    $("#del").parent().parent().remove();
+                    $("#del").parent().parent().remove();
 
                 },
                 error: function () {

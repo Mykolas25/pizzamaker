@@ -1,4 +1,4 @@
-@extends('admin.main')
+@extends('front-end.main')
 
 @section('content')
 
@@ -14,19 +14,19 @@
             </thead>
             <tbody>
 
-                @foreach($record as $key => $value)
-                    <tr>
-                        <td>{{$key}}</td>
-                        <td>{{$value}}</td>
-                    </tr>
-                @endforeach
+            @foreach($record as $key => $value)
+                <tr>
+                    <td>{{$key}}</td>
+                    <td>{{$value}}</td>
+                </tr>
+            @endforeach
 
             </tbody>
         </table>
 
-        <a class="btn btn-sm btn-primary" href="{{route('app.' . $tableName . '.index')}}">Back</a>
-        <a class="btn btn-success btn-sm" href="{{route('app.' . $tableName . '.edit', $record['id'])}}">Edit</a>
-        <a onclick="deleteItem('{{route('app.' . $tableName . '.delete', $record['id'])}}')" class="btn btn-danger btn-sm" href="{{route('app.' . $tableName . '.index')}}">Delete</a>
+        <a class="btn btn-sm btn-primary" href="{{route('front-end.' . $tableName . '.index')}}">Back</a>
+        <a class="btn btn-success btn-sm" href="{{route('front-end.' . $tableName . '.edit', $record['id'])}}">Edit</a>
+        <a onclick="deleteItem('{{route('front-end.' . $tableName . '.delete', $record['id'])}}')" class="btn btn-danger btn-sm" href="{{route('front-end.' . $tableName . '.index')}}">Delete</a>
 
     </div>
 
