@@ -6,19 +6,22 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 
-class DTUsersController extends Controller {
+class DTUsersController extends Controller
+{
 
-	/**
-	 * Display a listing of the resource.
-	 * GET /users
-	 *
-	 * @return Response
-	 */
+    /**
+     * Display a listing of the resource.
+     * GET /users
+     *
+     * @return Response
+     */
 
     public function index()
     {
 
-	}
+    }
+
+
 
 	public function adminIndex()
 	{
@@ -46,6 +49,8 @@ class DTUsersController extends Controller {
 	{
 
 	}
+
+
 
     public function adminCreate()
     {

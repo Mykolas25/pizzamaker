@@ -11,6 +11,11 @@
 |
 */
 
+
+
+    Route::get('/game', ['as' => 'app.game','uses' => 'DTGameController@gameShow']);
+    Route::post('/game', ['as' => 'app.game.store', 'uses' => 'DTGameController@store']);
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -150,6 +155,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 Route::group(['prefix' => 'pizzas'], function () {
+
+    Route::get('/', ['middleware' => ['auth', 'check-role-member'], 'as' => 'front-end.pizzas.index', 'uses' => 'DTPizzasController@index']);
 
     Route::get('/', ['middleware' => ['auth', 'check-role-member'], 'as' => 'front-end.pizzas.index', 'uses' => 'DTPizzasController@index']);
 
