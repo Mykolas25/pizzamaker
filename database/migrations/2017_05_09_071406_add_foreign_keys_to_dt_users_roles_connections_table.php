@@ -33,5 +33,4 @@ class AddForeignKeysToDtUsersRolesConnectionsTable extends Migration {
 			$table->dropForeign('fk_dt_users_roles_connections_dt_users1');
 		});
 	}
-
 }
